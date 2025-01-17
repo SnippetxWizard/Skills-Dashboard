@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Skills Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .dashboard {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .charts-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            width: 30%;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .chart-container:hover {
+            transform: scale(1.05);
+        }
+
+        h2 {
+            font-size: 3rem;
+            color: #495057;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #495057;
+        }
+
+        canvas {
+            width: 100%;
+            height: 300px;
+        }
+
+        .color-legend-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .color-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        /* Unique background colors for each chart container */
+        .hard-skills {
+            background-color: #fefefe; /* Yellow */
+        }
+
+        .soft-skills {
+            background-color: #fefefe; /* Green */
+        }
+
+        .tools {
+            background-color: #fefefe; /* Blue */
+        }
+
+        @media (max-width: 768px) {
+            .charts-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .chart-container {
+                width: 80%;
+                margin: 20px 0;
+            }
+        }
+        .dark-mode .hard-skills {
+            background-color: #040404; /* Darker Yellow */
+        }
+
+        .dark-mode .soft-skills {
+            background-color: #040404; /* Darker Green */
+        }
+
+        .dark-mode .tools {
+            background-color: #040404; /* Darker Blue */
+        }
+
+        /* Dark Mode Button */
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .charts-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .chart-container {
+                width: 80%;
+                margin: 20px 0;
+            }
+        }
+        body.dark-mode {
+            background-color: #212529;
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<div class="container">
+    <section class="dashboard">
+        <h2>Advanced Skills Dashboard</h2>
+        <div class="charts-container">
+            <!-- Hard Skills (Bar Chart) -->
+            <div class="chart-container hard-skills">
+                <h3>Hard Skills</h3>
+                <canvas id="hardSkillsBar"></canvas>
+            </div>
+
+            <!-- Soft Skills (Radar Chart) -->
+            <div class="chart-container soft-skills">
+                <h3>Soft Skills</h3>
+                <canvas id="softSkillsRadar"></canvas>
+            </div>
+
+            <!-- Tools (Donut Chart) -->
+            <div class="chart-container tools">
+                <h3>Tools</h3>
+                <canvas id="toolsDonut"></canvas>
+            </div>
+        </div>
+
+        <!-- Unified Color Legend Container -->
+        <div class="color-legend-container">
+            <h3>Color Scale for All Charts</h3>
+            <div class="color-legend">
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FFEB3B;"></div>
+                    <span>JavaScript</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FF6384;"></div>
+                    <span>Python</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #36A2EB;"></div>
+                    <span>React</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FFCE56;"></div>
+                    <span>Node.js</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #4BC0C0;"></div>
+                    <span>Django</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #8BC34A;"></div>
+                    <span>Communication</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FF5733;"></div>
+                    <span>Teamwork</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FFB81C;"></div>
+                    <span>Leadership</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FFCE56;"></div>
+                    <span>Problem-Solving</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #4BC0C0;"></div>
+                    <span>Time Management</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FF5733;"></div>
+                    <span>VS Code</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #36A2EB;"></div>
+                    <span>Git</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FFCE56;"></div>
+                    <span>MySQL</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #4BC0C0;"></div>
+                    <span>Node.js</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: #FF5733;"></div>
+                    <span>Docker</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Toggle Dark Mode
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+    // Hard Skills Bar Chart Data
+    const hardSkillsData = {
+        labels: ['JavaScript', 'Python', 'React', 'Node.js', 'Django'],
+        datasets: [{
+            label: 'Hard Skills Proficiency',
+            data: [85, 80, 75, 70, 65],
+            backgroundColor: ['#FFEB3B', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+            borderColor: '#ffffff',
+            borderWidth: 1
+        }]
+    };
+
+    // Soft Skills Radar Chart Data
+    const softSkillsData = {
+        labels: ['Communication', 'Teamwork', 'Leadership', 'Problem-Solving', 'Time Management'],
+        datasets: [{
+            label: 'Soft Skills Proficiency',
+            data: [95, 90, 85, 80, 85],
+            backgroundColor: ['#8BC34A', '#FF5733', '#FFB81C', '#FFCE56', '#4BC0C0'],
+            borderColor: '#ffffff',
+            borderWidth: 2
+        }]
+    };
+
+    // Tools Donut Chart Data
+    const toolsData = {
+        labels: ['VS Code', 'Git', 'MySQL', 'Node.js', 'Docker'],
+        datasets: [{
+            data: [40, 25, 20, 10, 5],
+            backgroundColor: ['#FF5733', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF6384'],
+            hoverBackgroundColor: ['#FF5733', '#357ABD', '#FFB81C', '#38B8B8', '#F05A28'],
+            borderWidth: 0
+        }]
+    };
+
+    // Hard Skills Bar Chart
+    const hardSkillsCtx = document.getElementById('hardSkillsBar').getContext('2d');
+    new Chart(hardSkillsCtx, {
+        type: 'bar',
+        data: hardSkillsData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 10
+                    }
+                }
+            }
+        }
+    });
+
+    // Soft Skills Radar Chart
+    const softSkillsCtx = document.getElementById('softSkillsRadar').getContext('2d');
+    new Chart(softSkillsCtx, {
+        type: 'radar',
+        data: softSkillsData,
+        options: {
+            responsive: true,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 10
+                    }
+                }
+            }
+        }
+    });
+
+    // Tools Donut Chart
+    const toolsCtx = document.getElementById('toolsDonut').getContext('2d');
+    new Chart(toolsCtx, {
+        type: 'doughnut',
+        data: toolsData,
+        options: {
+            responsive: true,
+            cutoutPercentage: 70, // This makes it a donut chart
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
